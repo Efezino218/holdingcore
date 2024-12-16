@@ -12,6 +12,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+# This Config is base on the API keys we added on The .env file on our Root Directory
+from dotenv import load_dotenv
+import os
+import environ
+
+load_dotenv() # Load environment variables from .env file
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,9 +83,18 @@ WSGI_APPLICATION = 'holdingcore.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '5432'),  # Default port for PostgreSQL is 5432
     }
 }
 
@@ -141,15 +158,7 @@ STATICFILES_DIRS = [
 # In settings.py
 
 
-# This Config is base on the API keys we added on The .env file on our Root Directory
-from pathlib import Path
-from dotenv import load_dotenv
-import os
-import environ
 
-load_dotenv()
-
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 FLUTTERWAVE_PUBLIC_KEY = os.getenv('FLUTTERWAVE_PUBLIC_KEY')
 FLUTTERWAVE_SECRET_KEY = os.getenv('FLUTTERWAVE_SECRET_KEY')
