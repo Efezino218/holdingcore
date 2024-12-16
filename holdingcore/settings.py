@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'holdingcore.urls'
@@ -143,12 +144,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 
 STATIC_ROOT = BASE_DIR / "staticfiles"  # For production (collectstatic)
 
@@ -156,15 +151,21 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",  #used it when you have static files outsit your static folder, then u need to create an extra static folder on your main app directory where u have the manag.py file
 ]
 
-
-# settings.py
-# FLUTTERWAVE_API_KEY = 'your_test_secret_key_here'  # Use your Test Secret Key
-# FLUTTERWAVE_PUBLIC_KEY = 'your_test_public_key_here'  # Use your Test Public Key
-# In settings.py
+# This setting will ensure that Whitenoise handles the static files storage and serves them efficiently in production.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
+
+
+
+# Connecting To FlutterWave API
 FLUTTERWAVE_PUBLIC_KEY = os.getenv('FLUTTERWAVE_PUBLIC_KEY')
 FLUTTERWAVE_SECRET_KEY = os.getenv('FLUTTERWAVE_SECRET_KEY')
 FLUTTERWAVE_ENCRYPTION_KEY = os.getenv('FLUTTERWAVE_ENCRYPTION_KEY')
